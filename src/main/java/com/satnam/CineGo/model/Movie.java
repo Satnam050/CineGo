@@ -4,6 +4,8 @@ package com.satnam.CineGo.model;
 import com.satnam.CineGo.enums.Genre;
 import com.satnam.CineGo.enums.Language;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,6 +18,8 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Movie {
 
     @Id
@@ -23,7 +27,8 @@ public class Movie {
     @Column(name = "movie_id")
     private String id;
 
-    @Column(name = "movie_name")
+
+    @Column(name = "movie_name", unique = true)
     private String name;
 
     @Column(name = "movie_desc", length = 3000)

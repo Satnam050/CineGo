@@ -28,7 +28,7 @@ public class Theatre {
     @Column(name = "theatre_city")
     private String city;
 
-    @OneToMany(mappedBy = "theatre")
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
     private List<Screen> screens;
 
     @CreationTimestamp
