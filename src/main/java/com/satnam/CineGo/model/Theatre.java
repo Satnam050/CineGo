@@ -1,7 +1,11 @@
 package com.satnam.CineGo.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +17,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Theatre {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,6 +35,7 @@ public class Theatre {
     private String city;
 
     @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Screen> screens;
 
     @CreationTimestamp
@@ -36,4 +43,9 @@ public class Theatre {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void addScreen(Screen screen) {
+        screens.add(screen);
+        screen.setTheatre(this);
+    }
 }

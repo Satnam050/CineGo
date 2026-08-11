@@ -1,6 +1,9 @@
 package com.satnam.CineGo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.satnam.CineGo.enums.ScreenType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,8 +25,8 @@ public class Screen {
 
 
     @Column(name = "screen_type")
+    @Enumerated(EnumType.STRING)
     private ScreenType screenType;
-
 
     @ManyToOne
     @JoinColumn(
@@ -31,10 +34,12 @@ public class Screen {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_screen_theatre")
     )
+    @JsonBackReference
     private Theatre theatre;
 
 
     @OneToMany(mappedBy = "screen" ,fetch = FetchType.LAZY)
+    @JsonManagedReference
     List<Show> shows;
 
 

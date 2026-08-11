@@ -7,4 +7,6 @@ import java.util.Date;
 
 public interface MovieRepository extends JpaRepository<Movie, String> {
     Movie findByNameAndReleaseDate(String name, Date releaseDate);
+
+
 }

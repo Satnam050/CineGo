@@ -1,9 +1,9 @@
 package com.satnam.CineGo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.satnam.CineGo.enums.ShowStatus;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-
+@AllArgsConstructor
+@Builder
 @Table(name = "shows")
 public class Show {
 
@@ -38,6 +39,7 @@ public class Show {
     nullable = false,
             foreignKey = @ForeignKey(name = "fk_show_movie")
     )
+    @JsonBackReference
     private Movie movie;
 
     @ManyToOne
@@ -46,6 +48,7 @@ public class Show {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_show_screen")
     )
+    @JsonBackReference
     private Screen screen;
 
     @CreationTimestamp

@@ -1,6 +1,6 @@
 package com.satnam.CineGo.controller;
 
-import com.satnam.CineGo.dtos.CreateMovieRequest;
+import com.satnam.CineGo.dtos.requestDTOs.CreateMovieRequest;
 import com.satnam.CineGo.model.Movie;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class MovieController {
 
 
      //addMovie -- handled by admin to add new movies --ADMIN ONLY
-    @PostMapping("/addNewMovie")
+    @PostMapping("/addMovie")
     public ResponseEntity<Movie> addNewMovie(@RequestBody CreateMovieRequest createMovieRequest) throws Exception {
         Movie movie = movieService.addNewMovie(createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);

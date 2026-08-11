@@ -1,6 +1,7 @@
 package com.satnam.CineGo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.satnam.CineGo.enums.Genre;
 import com.satnam.CineGo.enums.Language;
 import jakarta.persistence.*;
@@ -60,6 +61,7 @@ public class Movie {
     private double rating;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY , cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Show>shows;
 
     @CreationTimestamp

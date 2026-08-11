@@ -1,6 +1,6 @@
 package com.satnam.CineGo.services;
 
-import com.satnam.CineGo.dtos.CreateMovieRequest;
+import com.satnam.CineGo.dtos.requestDTOs.CreateMovieRequest;
 import com.satnam.CineGo.model.Movie;
 import com.satnam.CineGo.repository.MovieRepository;
 import org.springframework.stereotype.Service;
