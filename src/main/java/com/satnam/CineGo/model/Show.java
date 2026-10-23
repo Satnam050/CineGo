@@ -1,11 +1,15 @@
 package com.satnam.CineGo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.satnam.CineGo.enums.SeatStatus;
 import com.satnam.CineGo.enums.ShowStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +20,22 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name = "shows")
 public class Show {
+
+    public void generateSeats(int rows, int seatsPerRow){
+        for(int i=1; i<=rows; i++){
+            for(int j =1; j<=seatsPerRow; j++){
+                Seat seat = new Seat();
+                seat.setShow(this);
+                seat.setSeatNumber(j);
+                seat.setRowNumber(i);
+                seat.setStatus(SeatStatus.AVAILABLE);
+
+                seatList.add(seat);
+
+            }
+
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,7 +59,7 @@ public class Show {
     nullable = false,
             foreignKey = @ForeignKey(name = "fk_show_movie")
     )
-    @JsonBackReference
+
     private Movie movie;
 
     @ManyToOne
@@ -50,6 +70,10 @@ public class Show {
     )
     @JsonBackReference
     private Screen screen;
+
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<Seat>seatList= new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;

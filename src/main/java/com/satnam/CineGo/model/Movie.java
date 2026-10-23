@@ -2,6 +2,7 @@ package com.satnam.CineGo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.satnam.CineGo.dtos.requestDTOs.CreateMovieRequest;
 import com.satnam.CineGo.enums.Genre;
 import com.satnam.CineGo.enums.Language;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Movie {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -61,7 +63,6 @@ public class Movie {
     private double rating;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY , cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<Show>shows;
 
     @CreationTimestamp

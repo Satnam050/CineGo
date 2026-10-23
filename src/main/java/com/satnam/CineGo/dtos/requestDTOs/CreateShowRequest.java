@@ -17,6 +17,7 @@ public class CreateShowRequest {
 
     private ShowStatus status;
 
+
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;

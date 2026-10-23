@@ -6,6 +6,7 @@ import com.satnam.CineGo.model.Theatre;
 import com.satnam.CineGo.repository.TheatreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
