@@ -13,7 +13,7 @@ import com.satnam.CineGo.repository.SeatRepository;
 import com.satnam.CineGo.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 @Service
 public class PaymentService{

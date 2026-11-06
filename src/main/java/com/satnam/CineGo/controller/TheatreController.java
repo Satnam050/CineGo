@@ -23,7 +23,7 @@ public class TheatreController {
     }
 
     @DeleteMapping("/removeTheatre")
-    public ResponseEntity<Void> deleteTheatre(@RequestHeader(name = "X-THEATRE_ID")String theatreId){
+    public ResponseEntity<Void> deleteTheatre(@PathVariable String theatreId){
         theatreService.deleteTheatre(theatreId);
 
         return ResponseEntity.noContent().build();

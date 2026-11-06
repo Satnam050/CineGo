@@ -1,0 +1,42 @@
+services:
+  mysql:
+    container_name: db-container
+    image: mysql:latest
+    networks:
+      - backend-network
+
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=cinego
+    volumes:
+      - mysqldbVolume:/var/lib/mysql
+
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pSatnam@050804" ]
+      interval: 5s
+      timeout: 5s
+      retries: 2
+      start_period: 30s
+
+
+  spring-backend:
+    container_name: backend-container
+    image: cinego:v1
+    networks:
+      - backend-network
+
+    ports:
+      - "8090:8090"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    env_file:
+      - .env
+
+
+networks:
+  backend-network:
+
+volumes:
+  mysqldbVolume:
+

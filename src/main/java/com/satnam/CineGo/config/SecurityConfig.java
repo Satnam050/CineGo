@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +29,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final UserRepository userRepository;
@@ -41,9 +43,12 @@ public class SecurityConfig {
         http
                 .csrf((csrf)->csrf.disable())
                 .authorizeHttpRequests((auth)->
-                        auth.requestMatchers("/api/auth/login", "/error", "/api/auth/signup").permitAll()
-//                                .requestMatchers(HttpMethod.GET,"/api/shows/**").hasRole(Role.USER.name())
-//                                .requestMatchers(HttpMethod.POST,"/api/shows/**").hasAuthority(Permissions.WRITE.name())
+                        auth.requestMatchers("/api/auth/login", "/error", "/api/auth/signup", "/api/movies/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/v3/api-docs/**",
+                                        "/v3/api-docs.yaml").permitAll()
+                                .requestMatchers("/api/theatre/**").hasRole(Role.ADMIN.name())
                                 .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

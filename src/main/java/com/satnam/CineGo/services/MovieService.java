@@ -3,8 +3,11 @@ package com.satnam.CineGo.services;
 import com.satnam.CineGo.dtos.requestDTOs.CreateMovieRequest;
 import com.satnam.CineGo.dtos.responseDTOs.MovieSummaryResponse;
 import com.satnam.CineGo.dtos.responseDTOs.ShowResponse;
+import com.satnam.CineGo.exception.DuplicateMovieException;
+import com.satnam.CineGo.exception.MovieNotFoundException;
 import com.satnam.CineGo.model.Movie;
 import com.satnam.CineGo.repository.MovieRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,11 +50,11 @@ public class MovieService {
 
     }
 
-    public MovieSummaryResponse addNewMovie(CreateMovieRequest createMovieRequest) throws Exception {
+    public MovieSummaryResponse addNewMovie(CreateMovieRequest createMovieRequest) {
 
         Movie existingMovie = movieRepository.findByNameAndReleaseDate(createMovieRequest.getName(), createMovieRequest.getReleaseDate());
         if(existingMovie!=null){
-           throw new Exception("Movie with following details already exists:"+existingMovie.getName()+" "+existingMovie.getReleaseDate());
+           throw new DuplicateMovieException("Movie with following details already exists:"+existingMovie.getName()+" "+existingMovie.getReleaseDate());
         }
         Movie movie = Movie.builder()
                 .desc(createMovieRequest.getDesc())
@@ -75,7 +78,7 @@ public class MovieService {
     public MovieSummaryResponse getMovieById(String movieId) {
         Movie movie = movieRepository
                 .findById(movieId)
-                .orElseThrow(()->new RuntimeException("Movie not found"));
+                .orElseThrow(()->new MovieNotFoundException("Movie not found with given movieId"));
 
         return mapToMovieSummaryResponse(movie);
 
@@ -87,5 +90,19 @@ public class MovieService {
 
             return "Movie deleted successfully with ID :"+ movieId;
 
+    }
+
+    public MovieSummaryResponse getMovieByName(String movieName) {
+        Movie movie = movieRepository.findByName(movieName);
+
+        if(movie==null)throw new MovieNotFoundException("No movie exists with name :"+movieName);
+
+        return MovieSummaryResponse.builder()
+                .name(movie.getName())
+                .id(movie.getId())
+                .desc(movie.getDesc())
+                .languages(movie.getLanguages())
+                .cast(movie.getCast())
+        .build();
     }
 }

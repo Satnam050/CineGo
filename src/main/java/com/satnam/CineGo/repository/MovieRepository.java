@@ -9,4 +9,5 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     Movie findByNameAndReleaseDate(String name, Date releaseDate);
 
 
+    Movie findByName(String movieName);
 }

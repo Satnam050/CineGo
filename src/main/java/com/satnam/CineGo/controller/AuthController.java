@@ -10,6 +10,8 @@ import com.satnam.CineGo.model.User;
 import com.satnam.CineGo.repository.UserRepository;
 import com.satnam.CineGo.services.UserService;
 import io.jsonwebtoken.Jwts;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication Controller", description = "Register and login endpoints for users")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -38,6 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @Operation(summary = "New user signup")
     public UserResponse signup(@RequestBody CreateUserRequest createUserRequest){
         if(!userRepository.findByUsername(createUserRequest.getUsername()).isEmpty())throw new RuntimeException("User already exists");
         createUserRequest.setRole(Role.USER);
